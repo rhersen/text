@@ -1,6 +1,6 @@
-const moment = require('moment')
-
 const map = require('lodash.map')
+
+const delay = require('./delay')
 
 function formatLatestAnnouncement(a, stationNames) {
     if (!a)
@@ -8,7 +8,7 @@ function formatLatestAnnouncement(a, stationNames) {
 
     const s = a.TimeAtLocation.substring(11, 16)
 
-    return `Tåg ${a.AdvertisedTrainIdent} mot ${to(a)} ${activity(a)} ${location(a)} ${precision(a)} klockan ${ s}`
+    return `Tåg ${id(a)} mot ${to(a)} ${activity(a)} ${location(a)} ${delay.precision(a)} kl ${ s}`
 
     function to() {
         return map(map(a.ToLocation, 'LocationName'), stationName)
@@ -23,18 +23,12 @@ function formatLatestAnnouncement(a, stationNames) {
     }
 }
 
-function activity(a) {
-    return a.ActivityType === 'Ankomst' ? 'ankom till' : 'avgick från'
+function id(a) {
+    return a.AdvertisedTrainIdent
 }
 
-function precision(a) {
-    const delay = moment(a.TimeAtLocation).diff(moment(a.AdvertisedTimeAtLocation), 'minutes')
-
-    if (delay === 1) return 'nästan i tid'
-    if (delay > 0) return `${delay} minuter försenat`
-    if (delay < -1) return 'i god tid'
-
-    return 'i tid'
+function activity(a) {
+    return a.ActivityType === 'Ankomst' ? 'ankom till' : 'avgick från'
 }
 
 module.exports = formatLatestAnnouncement

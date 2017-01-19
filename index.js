@@ -1,4 +1,4 @@
-const moment = require('moment')
+import format from 'date-fns/format'
 
 require('./style.css')
 const getHtml = require('./getHtml')
@@ -44,7 +44,7 @@ function handleCurrent() {
         const result = JSON.parse(this.response).RESPONSE.RESULT[0]
         document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, stations)
         document.getElementById('update').textContent =
-            moment(result.INFO.LASTMODIFIED['@datetime']).format('H:mm:ss')
+            format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss')
     } else {
         document.getElementById('update').textContent = this.status
         document.getElementById('sheet').innerHTML = this.status

@@ -9,15 +9,13 @@
   },
   "author": "",
   "license": "BSD-2-Clause",
-  "dependencies": {
-    "moment": "^2.13.0"
-  },
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-loader": "^6.2.0",
     "babel-preset-es2015": "^6.3.13",
     "chai": "3.x",
     "css-loader": "^0.25.0",
+    "date-fns": "^1.22.0",
     "lodash.foreach": "4.x",
     "lodash.groupby": "4.x",
     "lodash.includes": "4.x",
