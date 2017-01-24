@@ -18,7 +18,7 @@ function getHtml(announcements, stationNames) {
         trains.sort((a, b) => position.y(a.LocationSignature) - position.y(b.LocationSignature))
 
         foreach(trains, a => {
-            s += `<div class="${position.x(a.LocationSignature)} ${delay.className(a)}">`
+            s += `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">`
             s += `${formatLatestAnnouncement(a, stationNames)}`
             s += '</div>'
         })

@@ -7,10 +7,10 @@ const sw = ['Sta', 'Hu', 'Flb', 'Tul', 'Tu', 'Rön', 'Öte', 'Söd', 'Söc', 'S�
 const se = ['Fas', 'Tåd', 'Skg', 'Hnd', 'Jbo', 'Vhe', 'Kda', 'Ts', 'Hfa', 'Ssä', 'Öso', 'Ngd', 'Gdv', 'Nyh']
 
 function x(location) {
-    if (includes(sw, location)) return 'west'
-    if (includes(nw, location)) return 'west'
-    if (includes(centrals, location)) return 'central'
-    return 'east'
+    if (includes(sw, location)) return 'left'
+    if (includes(nw, location)) return 'left'
+    if (includes(centrals, location)) return 'center'
+    return 'right'
 }
 
 function y(location) {

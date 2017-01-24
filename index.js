@@ -1,12 +1,10 @@
 import format from 'date-fns/format'
 import getHtml from './getHtml'
 
-require('./style.css')
-
 let stations
 
 const root = document.getElementById('root')
-root.insertAdjacentHTML('afterbegin', '<button id="update">Hämta data</button>')
+root.insertAdjacentHTML('afterbegin', '<button id="update" style="font-size: 24px">Hämta data</button>')
 root.insertAdjacentHTML('beforeend', '<div id="sheet"/>')
 
 const button = root.firstElementChild
