@@ -1,4 +1,4 @@
-const difference_in_minutes = require('date-fns/difference_in_minutes')
+import difference_in_minutes from 'date-fns/difference_in_minutes'
 
 module.exports = {
     className: function className(a) {

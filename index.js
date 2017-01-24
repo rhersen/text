@@ -1,7 +1,7 @@
 import format from 'date-fns/format'
+import getHtml from './getHtml'
 
 require('./style.css')
-const getHtml = require('./getHtml')
 
 let stations
 

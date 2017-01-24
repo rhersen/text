@@ -1,11 +1,11 @@
-const foreach = require('lodash.foreach')
-const groupby = require('lodash.groupby')
-const map = require('lodash.map')
-const maxby = require('lodash.maxby')
+import foreach from 'lodash.foreach'
+import groupby from 'lodash.groupby'
+import map from 'lodash.map'
+import maxby from 'lodash.maxby'
 
-const delay = require('./delay')
-const formatLatestAnnouncement = require('./formatLatestAnnouncement')
-const position = require('./position')
+import delay from './delay'
+import formatLatestAnnouncement from './formatLatestAnnouncement'
+import position from './position'
 
 function getHtml(announcements, stationNames) {
     let s = '<div id="sheet">'

@@ -1,4 +1,4 @@
-const includes = require('lodash.includes')
+import includes from 'lodash.includes'
 
 const nw = ['Sub', 'Spå', 'Bkb', 'Jkb', 'Khä', 'Kän', 'Bro', 'Bål']
 const ne = ['So', 'Udl', 'Hel', 'Sol', 'Hgv', 'Nvk', 'R', 'Upv', 'Rs', 'Mr', 'Arnc', 'Kn', 'U']

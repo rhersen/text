@@ -1,6 +1,6 @@
-const map = require('lodash.map')
+import map from 'lodash.map'
 
-const delay = require('./delay')
+import delay from './delay'
 
 function formatLatestAnnouncement(a, stationNames) {
     if (!a)

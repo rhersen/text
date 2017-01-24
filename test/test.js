@@ -1,6 +1,6 @@
-const expect = require('chai').expect
+import {expect} from 'chai'
 
-const getHtml = require('../getHtml')
+import getHtml from '../getHtml'
 
 describe('getHtml', function () {
     it('returns empty div', function () {
