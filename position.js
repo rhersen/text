@@ -6,14 +6,14 @@ const centrals = ['Äs', 'Åbe', 'Sst', 'Cst', 'Ke']
 const sw = ['Sta', 'Hu', 'Flb', 'Tul', 'Tu', 'Rön', 'Öte', 'Söd', 'Söc', 'Söu', 'Jn', 'Mö', 'Gn']
 const se = ['Fas', 'Tåd', 'Skg', 'Hnd', 'Jbo', 'Vhe', 'Kda', 'Ts', 'Hfa', 'Ssä', 'Öso', 'Ngd', 'Gdv', 'Nyh']
 
-function x(location) {
+export function x(location) {
     if (includes(sw, location)) return 'left'
     if (includes(nw, location)) return 'left'
     if (includes(centrals, location)) return 'center'
     return 'right'
 }
 
-function y(location) {
+export function y(location) {
     let number = centrals.indexOf(location)
     if (number !== -1) return 3 - number
 
@@ -29,9 +29,3 @@ function y(location) {
     number = se.indexOf(location)
     if (number !== -1) return 5 + 2 * number
 }
-
-module.exports = {
-    x: x,
-    y: y
-}
-

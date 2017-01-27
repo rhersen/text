@@ -3,17 +3,17 @@ import groupby from 'lodash.groupby'
 import map from 'lodash.map'
 import maxby from 'lodash.maxby'
 
-import delay from './delay'
+import * as delay from './delay'
 import formatLatestAnnouncement from './formatLatestAnnouncement'
-import position from './position'
+import * as position from './position'
 
-function getHtml(announcements, stationNames) {
+export default function getHtml(announcements, stationNames, lastModified) {
     let s = '<div id="sheet">'
 
     const latest = map(groupby(announcements, 'AdvertisedTrainIdent'), v => maxby(v, 'TimeAtLocation'))
 
     foreach(groupby(latest, direction), (trains, dir) => {
-        s += `<h1>${dir}</h1>`
+        s += `<h1>${dir} ${lastModified}</h1>`
 
         trains.sort((a, b) => position.y(a.LocationSignature) - position.y(b.LocationSignature))
 
@@ -32,5 +32,3 @@ function getHtml(announcements, stationNames) {
 function direction(t) {
     return /[13579]$/.test(t.AdvertisedTrainIdent) ? 'söderut' : 'norrut'
 }
-
-module.exports = getHtml

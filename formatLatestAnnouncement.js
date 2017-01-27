@@ -1,8 +1,8 @@
 import map from 'lodash.map'
 
-import delay from './delay'
+import * as delay from './delay'
 
-function formatLatestAnnouncement(a, stationNames) {
+export default function formatLatestAnnouncement(a, stationNames) {
     if (!a)
         return 'Aktuell information saknas'
 
@@ -30,5 +30,3 @@ function id(a) {
 function activity(a) {
     return a.ActivityType === 'Ankomst' ? 'ankom till' : 'avgick från'
 }
-
-module.exports = formatLatestAnnouncement
