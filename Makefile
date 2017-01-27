@@ -6,7 +6,7 @@ pull:
 mocha:
 	node_modules/.bin/mocha --compilers js:babel-core/register
 
-browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js position.js style.css
+browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js position.js delay.js
 	node_modules/.bin/webpack --optimize-minimize
 
 /opt/nginx-1.10.2/text/browser-bundle.js:	browser-bundle.js
