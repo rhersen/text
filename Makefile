@@ -4,7 +4,7 @@ pull:
 	git pull
 
 mocha:
-	node_modules/.bin/mocha
+	node_modules/.bin/mocha --compilers js:babel-core/register
 
 browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js position.js style.css
 	node_modules/.bin/webpack --optimize-minimize
