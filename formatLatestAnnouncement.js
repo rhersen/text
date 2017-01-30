@@ -8,7 +8,8 @@ export default function formatLatestAnnouncement(a, stationNames) {
 
     const s = a.TimeAtLocation.substring(11, 16)
 
-    return `Tåg ${id(a)} mot ${to(a)} ${activity(a)} ${location(a)} ${delay.precision(a)} kl ${ s}`
+    return `<span class="wide">Tåg ${id(a)} mot </span>${to(a)}
+            ${activity(a)} ${location(a)} ${delay.precision(a)} <span class="wide">kl</span> ${s}`
 
     function to() {
         return map(map(a.ToLocation, 'LocationName'), stationName)
@@ -28,5 +29,8 @@ function id(a) {
 }
 
 function activity(a) {
-    return a.ActivityType === 'Ankomst' ? 'ankom till' : 'avgick från'
+    if (a.ActivityType === 'Ankomst')
+        return 'ank<span class="wide">om till</span>'
+
+    return 'avg<span class="wide">ick från</span>'
 }

@@ -36,10 +36,8 @@ function handleStations() {
         const trainStations = JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation
         stations = {}
         trainStations.forEach(entry => stations[entry.LocationSignature] = entry.AdvertisedShortLocationName)
-    } else {
-        document.getElementById('update').textContent = this.status
-        document.getElementById('sheet').innerHTML = this.status
-    }
+    } else
+        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
 }
 
 function handleCurrent() {
@@ -48,5 +46,5 @@ function handleCurrent() {
         const lastModified = format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss')
         document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, stations, lastModified)
     } else
-        document.getElementById('sheet').outerHTML = `<span>${this.status}</span>`
+        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
 }

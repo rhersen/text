@@ -12,11 +12,12 @@ export function color(a) {
 export function precision(a) {
     const delay = minutes(a)
 
-    if (delay === 1) return 'nästan i tid'
-    if (delay > 0) return `${delay} minuter försenat`
+    if (delay === 1) return '<span class="wide">nästan i tid</span>'
+    if (delay > 0) return `${delay} min<span class="wide">uter</span>
+                           <span class="wide">för</span>sen<span class="wide">a</span>t`
     if (delay < -1) return 'i god tid'
 
-    return 'i tid'
+    return '<span class="wide">i tid</span>'
 }
 
 function minutes(a) {
