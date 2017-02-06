@@ -1,20 +1,18 @@
 import foreach from 'lodash.foreach'
-import groupby from 'lodash.groupby'
+import filter from 'lodash.filter'
 import map from 'lodash.map'
-import maxby from 'lodash.maxby'
+import includes from 'lodash.includes'
+import reject from 'lodash.reject'
 
 import * as delay from './delay'
 import formatLatestAnnouncement from './formatLatestAnnouncement'
+import latestAnnouncementForEachTrain from './latestAnnouncementForEachTrain'
 import * as position from './position'
 
 export default function getHtml(announcements, stationNames, lastModified) {
     let s = `<div id="sheet"><h1>${lastModified}</h1>`
 
-    const trains = map(groupby(announcements, 'AdvertisedTrainIdent'), v => maxby(v, 'TimeAtLocation'))
-
-    trains.sort((a, b) => position.y(a.LocationSignature) - position.y(b.LocationSignature))
-
-    foreach(trains, a => {
+    foreach(latestAnnouncementForEachTrain(removeArrivedTrains(announcements)), a => {
         s += `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">`
         s += `${formatLatestAnnouncement(a, stationNames)}`
         s += '</div>'
@@ -24,3 +22,16 @@ export default function getHtml(announcements, stationNames, lastModified) {
     return s
 }
 
+function removeArrivedTrains(announcements) {
+    const arrivedTrains = map(filter(announcements, isArrivalAtFinalDestination), 'AdvertisedTrainIdent')
+
+    return reject(announcements, isArrivedTrain)
+
+    function isArrivedTrain(announcement) {
+        return includes(arrivedTrains, announcement.AdvertisedTrainIdent)
+    }
+}
+
+function isArrivalAtFinalDestination(a) {
+    return a.ActivityType === 'Ankomst' && map(a.ToLocation, 'LocationName').join() === a.LocationSignature
+}
