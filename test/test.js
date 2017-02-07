@@ -13,34 +13,42 @@ describe('getHtml', function () {
     it('removes arrival to ToLocation', function () {
         const actual = getHtml([{
             'ActivityType': 'Avgang',
-            'AdvertisedTimeAtLocation': '2017-02-06T07:33:00',
             'AdvertisedTrainIdent': '2909',
             'LocationSignature': 'Tul',
             'ToLocation': [{'LocationName': 'Tu', 'Priority': 1, 'Order': 0}],
-            'ModifiedTime': '2017-02-06T06:42:42.431Z',
-            'EstimatedTimeAtLocation': '2017-02-06T07:41:00',
             'TimeAtLocation': '2017-02-06T07:42:00'
         }, {
             'ActivityType': 'Ankomst',
-            'AdvertisedTimeAtLocation': '2017-02-06T07:37:00',
             'AdvertisedTrainIdent': '2909',
             'LocationSignature': 'Tu',
             'ToLocation': [{'LocationName': 'Tu', 'Priority': 1, 'Order': 0}],
-            'ModifiedTime': '2017-02-06T06:44:57.671Z',
-            'EstimatedTimeAtLocation': '2017-02-06T07:45:00',
             'TimeAtLocation': '2017-02-06T07:45:00'
         }, {
             'ActivityType': 'Ankomst',
-            'AdvertisedTimeAtLocation': '2017-02-06T07:37:00',
             'AdvertisedTrainIdent': '2611',
             'LocationSignature': 'Åbe',
             'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
-            'ModifiedTime': '2017-02-06T06:37:27.195Z',
             'TimeAtLocation': '2017-02-06T07:37:00'
         }])
 
         expect(actual).to.match(/Tåg 2611/)
         expect(actual).to.not.match(/Tåg 2909/)
+    })
+
+    it('sorts according to time if ActivityType is same', function () {
+        const actual = getHtml([{
+            'ActivityType': 'Avgang',
+            'AdvertisedTrainIdent': '2664',
+            'LocationSignature': 'Äs',
+            'TimeAtLocation': '2017-02-06T20:49:00'
+        }, {
+            'ActivityType': 'Avgang',
+            'AdvertisedTrainIdent': '2864',
+            'LocationSignature': 'Äs',
+            'TimeAtLocation': '2017-02-06T20:48:00'
+        }])
+
+        expect(actual).to.match(/2864.*\n.*2664/)
     })
 })
 
@@ -79,7 +87,43 @@ describe('latestAnnouncementForEachTrain', function () {
         expect(actual[1].LocationSignature).to.equal('Udl')
     })
 
-    it('returns only the latest announcment for each train', function () {
+    it('returns only the latest announcement for each train', function () {
+        const announcements = [{
+            'ActivityType': 'Ankomst',
+            'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Cst',
+            'TimeAtLocation': '2017-02-02T07:11:00'
+        }, {
+            'ActivityType': 'Ankomst',
+            'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Ke',
+            'TimeAtLocation': '2017-02-02T07:14:00'
+        }]
+
+        const actual = latestAnnouncementForEachTrain(announcements)
+
+        expect(actual).to.deep.equal([announcements[1]])
+    })
+
+    it('Avgang is later than Ankomst', function () {
+        const announcements = [{
+            'ActivityType': 'Ankomst',
+            'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Ke',
+            'TimeAtLocation': '2017-02-02T07:14:00'
+        }, {
+            'ActivityType': 'Avgang',
+            'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Ke',
+            'TimeAtLocation': '2017-02-02T07:14:00'
+        }]
+
+        const actual = latestAnnouncementForEachTrain(announcements)
+
+        expect(actual[0].ActivityType).to.equal('Avgang')
+    })
+
+    it('returns only the latest announcement for each train', function () {
         const announcements = [{
             'AdvertisedTrainIdent': '2608',
             'LocationSignature': 'Cst',
