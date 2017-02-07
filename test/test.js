@@ -69,10 +69,10 @@ describe('latestAnnouncementForEachTrain', function () {
 
         const actual = latestAnnouncementForEachTrain(announcements)
 
-        expect(actual).to.deep.equal([announcements[1]])
+        expect(actual[0].TimeAtLocation).to.match(/7:14/)
     })
 
-    it('Avgang is later than Ankomst', function () {
+    it('Avgang is considered more recent than Ankomst', function () {
         const announcements = [{
             'ActivityType': 'Ankomst',
             'AdvertisedTrainIdent': '2608',
@@ -107,7 +107,7 @@ describe('latestAnnouncementForEachTrain', function () {
         expect(actual[1].LocationSignature).to.equal('Udl')
     })
 
-    it('sorts Avgang before Ankomst', function () {
+    it('sorts Avgang below Ankomst for southbound', function () {
         const announcements = [{
             'ActivityType': 'Avgang',
             'AdvertisedTrainIdent': '2653',
@@ -122,11 +122,11 @@ describe('latestAnnouncementForEachTrain', function () {
 
         const actual = latestAnnouncementForEachTrain(announcements)
 
-        expect(actual[0].AdvertisedTrainIdent).to.equal('2853')
-        expect(actual[1].AdvertisedTrainIdent).to.equal('2653')
+        expect(actual[0].ActivityType).to.equal('Ankomst')
+        expect(actual[1].ActivityType).to.equal('Avgang')
     })
 
-    it('sorts according to time if ActivityType is same', function () {
+    it('sorts northbound by time, ascending, if ActivityType is same', function () {
         const announcements = [{
             'ActivityType': 'Avgang',
             'AdvertisedTrainIdent': '2664',
@@ -141,11 +141,11 @@ describe('latestAnnouncementForEachTrain', function () {
 
         const actual = latestAnnouncementForEachTrain(announcements)
 
-        expect(actual[0].AdvertisedTrainIdent).to.equal('2864')
-        expect(actual[1].AdvertisedTrainIdent).to.equal('2664')
+        expect(actual[0].TimeAtLocation).to.match(/20:48/)
+        expect(actual[1].TimeAtLocation).to.match(/20:49/)
     })
 
-    it('sorts according to time if ActivityType is same', function () {
+    it('sorts southbound by time, descending, if ActivityType is same', function () {
         const announcements = [{
             'ActivityType': 'Ankomst',
             'AdvertisedTrainIdent': '2849',
@@ -160,26 +160,7 @@ describe('latestAnnouncementForEachTrain', function () {
 
         const actual = latestAnnouncementForEachTrain(announcements)
 
-        expect(actual[0].AdvertisedTrainIdent).to.equal('2949')
-        expect(actual[1].AdvertisedTrainIdent).to.equal('2849')
-    })
-
-    it('sorts according to time if ActivityType is same', function () {
-        const announcements = [{
-            'ActivityType': 'Ankomst',
-            'AdvertisedTrainIdent': '2761',
-            'LocationSignature': 'Cst',
-            'TimeAtLocation': '2017-02-07T19:43:00'
-        }, {
-            'ActivityType': 'Ankomst',
-            'AdvertisedTrainIdent': '2561',
-            'LocationSignature': 'Cst',
-            'TimeAtLocation': '2017-02-07T19:46:00'
-        }]
-
-        const actual = latestAnnouncementForEachTrain(announcements)
-
-        expect(actual[0].AdvertisedTrainIdent).to.equal('2561')
-        expect(actual[1].AdvertisedTrainIdent).to.equal('2761')
+        expect(actual[0].TimeAtLocation).to.match(/17:05/)
+        expect(actual[1].TimeAtLocation).to.match(/17:01/)
     })
 })
