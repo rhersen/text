@@ -20,5 +20,14 @@ function northToSouth(a, b) {
 
     if (pos) return pos
 
-    return 1
+    const isSouthbound = /\d\d\d[13579]/.test(a.AdvertisedTrainIdent)
+    const dir = isSouthbound ? -1 : 1
+
+    if (a.ActivityType > b.ActivityType) return -dir
+    if (a.ActivityType < b.ActivityType) return dir
+
+    if (a.TimeAtLocation > b.TimeAtLocation) return dir
+    if (a.TimeAtLocation < b.TimeAtLocation) return -dir
+
+    return 0
 }
