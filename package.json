@@ -23,6 +23,7 @@
     "lodash.keyby": "4.x",
     "lodash.map": "4.x",
     "lodash.maxby": "4.x",
+    "lodash.minby": "4.x",
     "lodash.reject": "4.x",
     "mocha": "2.x",
     "style-loader": "^0.13.1",

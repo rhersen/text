@@ -12,7 +12,7 @@ import * as position from './position'
 export default function getHtml(announcements, stationNames, lastModified) {
     let s = `<div id="sheet"><h1>${lastModified}</h1>`
 
-    foreach(latestAnnouncementForEachTrain(removeArrivedTrains(announcements)), a => {
+    foreach(latestAnnouncementForEachTrain(removeArrivedTrains(filter(announcements, 'TimeAtLocation'))), a => {
         s += `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">`
         s += `${formatLatestAnnouncement(a, stationNames)}`
         s += '</div>'
