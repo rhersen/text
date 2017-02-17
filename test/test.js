@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 
 import getHtml from '../getHtml'
-import latestAnnouncementForEachTrain from '../latestAnnouncementForEachTrain'
+import * as groupAnnouncements from '../groupAnnouncements'
 
 describe('getHtml', function () {
     it('returns empty div', function () {
@@ -36,9 +36,9 @@ describe('getHtml', function () {
     })
 })
 
-describe('latestAnnouncementForEachTrain', function () {
+describe('groupAnnouncements', function () {
     it('returns empty array', function () {
-        const actual = latestAnnouncementForEachTrain([])
+        const actual = groupAnnouncements.actual([])
 
         expect(actual).to.be.an('array').that.is.empty
     })
@@ -49,7 +49,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-02T07:11:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual).to.deep.equal(announcements)
     })
@@ -67,7 +67,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-02T07:14:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].TimeAtLocation).to.match(/7:14/)
     })
@@ -85,7 +85,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-02T07:14:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].ActivityType).to.equal('Avgang')
     })
@@ -101,7 +101,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-02T07:11:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].LocationSignature).to.equal('R')
         expect(actual[1].LocationSignature).to.equal('Udl')
@@ -120,7 +120,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-07T18:12:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].ActivityType).to.equal('Ankomst')
         expect(actual[1].ActivityType).to.equal('Avgang')
@@ -139,7 +139,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-06T20:48:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].TimeAtLocation).to.match(/20:48/)
         expect(actual[1].TimeAtLocation).to.match(/20:49/)
@@ -158,7 +158,7 @@ describe('latestAnnouncementForEachTrain', function () {
             'TimeAtLocation': '2017-02-07T17:05:00'
         }]
 
-        const actual = latestAnnouncementForEachTrain(announcements)
+        const actual = groupAnnouncements.actual(announcements)
 
         expect(actual[0].TimeAtLocation).to.match(/17:05/)
         expect(actual[1].TimeAtLocation).to.match(/17:01/)

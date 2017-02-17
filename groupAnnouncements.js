@@ -4,7 +4,7 @@ import maxby from 'lodash.maxby'
 
 import * as position from './position'
 
-export default function latestAnnouncementForEachTrain(announcements) {
+export function actual(announcements) {
     const trains = map(groupby(announcements, 'AdvertisedTrainIdent'), latestAnnouncement)
 
     trains.sort(northToSouth)

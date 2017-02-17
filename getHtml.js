@@ -5,14 +5,14 @@ import reject from 'lodash.reject'
 
 import * as delay from './delay'
 import formatLatestAnnouncement from './formatLatestAnnouncement'
-import latestAnnouncementForEachTrain from './latestAnnouncementForEachTrain'
+import * as groupAnnouncements from './groupAnnouncements'
 import * as position from './position'
 
 export default function getHtml(announcements, stationNames, lastModified) {
     let s = `<div id="sheet"><h1>${lastModified}</h1>`
 
     const actual = filter(announcements, 'TimeAtLocation')
-    const trains = latestAnnouncementForEachTrain(actual)
+    const trains = groupAnnouncements.actual(actual)
 
     foreach(reject(trains, hasArrivedAtDestination), a => {
         s += `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">`
