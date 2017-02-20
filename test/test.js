@@ -34,6 +34,24 @@ describe('getHtml', function () {
         expect(actual).to.match(/Tåg 2611/)
         expect(actual).to.not.match(/Tåg 2909/)
     })
+
+    it('removes trains that have no TimeAtLocation', function () {
+        const actual = getHtml([{
+            'ActivityType': 'Avgang',
+            'AdvertisedTrainIdent': '2909',
+            'LocationSignature': 'Tul',
+            'ToLocation': [{'LocationName': 'Tu', 'Priority': 1, 'Order': 0}]
+        }, {
+            'ActivityType': 'Ankomst',
+            'AdvertisedTrainIdent': '2611',
+            'LocationSignature': 'Åbe',
+            'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
+            'TimeAtLocation': '2017-02-06T07:37:00'
+        }])
+
+        expect(actual).to.match(/Tåg 2611/)
+        expect(actual).to.not.match(/Tåg 2909/)
+    })
 })
 
 describe('groupAnnouncements', function () {
@@ -162,5 +180,47 @@ describe('groupAnnouncements', function () {
 
         expect(actual[0].TimeAtLocation).to.match(/17:05/)
         expect(actual[1].TimeAtLocation).to.match(/17:01/)
+    })
+
+    it('returns the latest actual and the earliest estimated', function () {
+        const announcements = [{
+            'ActivityType': 'Ankomst',
+            'AdvertisedTimeAtLocation': '2017-02-17T17:43:00',
+            'AdvertisedTrainIdent': '2651',
+            'LocationSignature': 'Sta',
+            'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
+            'ModifiedTime': '2017-02-17T16:43:38.824Z',
+            'EstimatedTimeAtLocation': '2017-02-17T17:44:00',
+            'TimeAtLocation': '2017-02-17T17:43:00'
+        }, {
+            'ActivityType': 'Avgang',
+            'AdvertisedTimeAtLocation': '2017-02-17T17:43:00',
+            'AdvertisedTrainIdent': '2651',
+            'LocationSignature': 'Sta',
+            'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
+            'ModifiedTime': '2017-02-17T16:45:16.562Z',
+            'EstimatedTimeAtLocation': '2017-02-17T17:44:00',
+            'TimeAtLocation': '2017-02-17T17:44:00'
+        }, {
+            'ActivityType': 'Ankomst',
+            'AdvertisedTimeAtLocation': '2017-02-17T17:46:00',
+            'AdvertisedTrainIdent': '2651',
+            'LocationSignature': 'Hu',
+            'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
+            'ModifiedTime': '2017-02-17T16:43:37.467Z'
+        }, {
+            'ActivityType': 'Avgang',
+            'AdvertisedTimeAtLocation': '2017-02-17T17:46:00',
+            'AdvertisedTrainIdent': '2651',
+            'LocationSignature': 'Hu',
+            'ToLocation': [{'LocationName': 'Söc', 'Priority': 1, 'Order': 0}],
+            'ModifiedTime': '2017-02-17T16:43:37.483Z'
+        }]
+
+        const actual = groupAnnouncements.nearest(announcements)
+
+        expect(actual.prev.TimeAtLocation).to.match(/17:44/)
+        expect(actual.next.ActivityType).to.equal('Ankomst')
+        expect(actual.next.AdvertisedTimeAtLocation).to.match(/17:46/)
     })
 })
