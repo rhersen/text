@@ -1,31 +1,27 @@
+import findindex from 'lodash.findindex'
 import includes from 'lodash.includes'
 
-const nw = ['Sub', 'Spå', 'Bkb', 'Jkb', 'Khä', 'Kän', 'Bro', 'Bål']
-const ne = ['So', 'Udl', 'Hel', 'Sol', 'Hgv', 'Nvk', 'R', 'Upv', 'Rs', 'Mr', 'Arnc', 'Kn', 'U']
-const centrals = ['Äs', 'Åbe', 'Sst', 'Cst', 'Ke']
-const sw = ['Sta', 'Hu', 'Flb', 'Tul', 'Tu', 'Rön', 'Öte', 'Söd', 'Söc', 'Söu', 'Jn', 'Mö', 'Gn']
-const se = ['Fas', 'Tåd', 'Skg', 'Hnd', 'Jbo', 'Vhe', 'Kda', 'Ts', 'Hfa', 'Ssä', 'Öso', 'Ngd', 'Gdv', 'Nyh']
+const stations = [['Äs', 'Åbe', 'Sst', 'Cst', 'Ke'],
+    ['Sub', 'Spå', 'Bkb', 'Jkb', 'Khä', 'Kän', 'Bro', 'Bål'],
+    ['So', 'Udl', 'Hel', 'Sol', 'Hgv', 'Nvk', 'R', 'Upv', 'Rs', 'Mr', 'Arnc', 'Kn', 'U'],
+    ['Sta', 'Hu', 'Flb', 'Tul', 'Tu', 'Rön', 'Öte', 'Söd', 'Söc', 'Söu', 'Jn', 'Mö', 'Gn'],
+    ['Fas', 'Tåd', 'Skg', 'Hnd', 'Jbo', 'Vhe', 'Kda', 'Ts', 'Hfa', 'Ssä', 'Öso', 'Ngd', 'Gdv', 'Nyh']]
 
 export function x(location) {
-    if (includes(sw, location)) return 'left'
-    if (includes(nw, location)) return 'left'
-    if (includes(centrals, location)) return 'center'
-    return 'right'
+    return includes(stations[3], location) ? 'left' :
+        includes(stations[1], location) ? 'left' :
+            includes(stations[0], location) ? 'center' :
+                'right';
 }
 
 export function y(location) {
-    let number = centrals.indexOf(location)
-    if (number !== -1) return 3 - number
+    const n = findindex(stations, s => s.indexOf(location) !== -1)
+    const number = stations[n].indexOf(location)
 
-    number = nw.indexOf(location)
-    if (number !== -1) return -3 - 2 * number
-
-    number = ne.indexOf(location)
-    if (number !== -1) return -2 - 2 * number
-
-    number = sw.indexOf(location)
-    if (number !== -1) return 4 + 2 * number
-
-    number = se.indexOf(location)
-    if (number !== -1) return 5 + 2 * number
+    return n === 0 ? 3 - number :
+        n === 1 ? -3 - 2 * number :
+            n === 2 ? -2 - 2 * number :
+                n === 3 ? 4 + 2 * number :
+                    n === 4 ? 5 + 2 * number :
+                        0;
 }

@@ -1,3 +1,5 @@
+/* eslint better/explicit-return: 0, fp/no-nil: 0, fp/no-unused-expression: 0 */
+
 import {expect} from 'chai'
 
 import getHtml from '../getHtml'
@@ -7,7 +9,7 @@ describe('getHtml', function () {
     it('returns empty div', function () {
         const actual = getHtml([])
 
-        expect(actual).to.equal('<div id="sheet"><h1>undefined</h1></div>')
+        expect(actual).to.equal('<div id="sheet"><h1>undefined</h1>\n</div>')
     })
 
     it('removes arrival to ToLocation', function () {
@@ -64,6 +66,7 @@ describe('groupAnnouncements', function () {
     it('does nothing to single train', function () {
         const announcements = [{
             'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Cst',
             'TimeAtLocation': '2017-02-02T07:11:00'
         }]
 

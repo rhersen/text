@@ -1,7 +1,9 @@
+/* eslint better/explicit-return: 0, better/no-new: 0, fp/no-mutation: 0, fp/no-nil: 0, fp/no-this: 0, fp/no-unused-expression: 0 */
+
 import format from 'date-fns/format'
 import getHtml from './getHtml'
 
-let stations
+const stations = {}
 
 const root = document.getElementById('root')
 root.insertAdjacentHTML('afterbegin', '<button id="update" style="font-size: 24px">söderut</button>')
@@ -32,19 +34,17 @@ function getStations() {
 }
 
 function handleStations() {
-    if (this.status >= 200 && this.status < 400) {
-        const trainStations = JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation
-        stations = {}
-        trainStations.forEach(entry => stations[entry.LocationSignature] = entry.AdvertisedShortLocationName)
-    } else
-        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
+    return this.status >= 200 && this.status < 400 ?
+        JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation.forEach(entry => stations[entry.LocationSignature] = entry.AdvertisedShortLocationName) :
+        (document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`);
 }
 
 function handleCurrent() {
-    if (this.status >= 200 && this.status < 400) {
-        const result = JSON.parse(this.response).RESPONSE.RESULT[0]
-        const lastModified = format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss')
-        document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, stations, lastModified)
-    } else
-        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
+    function setOuterHtml(result) {
+        document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, stations, format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss'))
+    }
+
+    return this.status >= 200 && this.status < 400 ?
+        setOuterHtml(JSON.parse(this.response).RESPONSE.RESULT[0]) :
+        (document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`);
 }
