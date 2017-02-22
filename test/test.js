@@ -4,6 +4,7 @@ import {expect} from 'chai'
 
 import getHtml from '../getHtml'
 import * as groupAnnouncements from '../groupAnnouncements'
+import * as position from '../position'
 
 describe('getHtml', function () {
     it('returns empty div', function () {
@@ -111,23 +112,6 @@ describe('groupAnnouncements', function () {
         expect(actual[0].ActivityType).to.equal('Avgang')
     })
 
-    it('sorts according to location, north to south', function () {
-        const announcements = [{
-            'AdvertisedTrainIdent': '2608',
-            'LocationSignature': 'Udl',
-            'TimeAtLocation': '2017-02-02T07:21:00'
-        }, {
-            'AdvertisedTrainIdent': '2708',
-            'LocationSignature': 'R',
-            'TimeAtLocation': '2017-02-02T07:11:00'
-        }]
-
-        const actual = groupAnnouncements.actual(announcements)
-
-        expect(actual[0].LocationSignature).to.equal('R')
-        expect(actual[1].LocationSignature).to.equal('Udl')
-    })
-
     it('sorts Avgang below Ankomst for southbound', function () {
         const announcements = [{
             'ActivityType': 'Avgang',
@@ -225,5 +209,40 @@ describe('groupAnnouncements', function () {
         expect(actual.prev.TimeAtLocation).to.match(/17:44/)
         expect(actual.next.ActivityType).to.equal('Ankomst')
         expect(actual.next.AdvertisedTimeAtLocation).to.match(/17:46/)
+    })
+})
+
+describe('position', function () {
+    describe('y', function () {
+        describe('sorts according to location, north to south', function () {
+            it('within each branch', function () {
+                expect(position.y('Udl')).to.be.above(position.y('Upv'))
+                expect(position.y('Sst')).to.be.above(position.y('Cst'))
+                expect(position.y('Bkb')).to.be.above(position.y('Bro'))
+                expect(position.y('Tul')).to.be.above(position.y('Flb'))
+                expect(position.y('Nyh')).to.be.above(position.y('Fas'))
+            })
+
+            it('between branches', function () {
+                expect(position.y('Cst')).to.be.above(position.y('Udl'))
+                expect(position.y('Cst')).to.be.above(position.y('Sub'))
+                expect(position.y('Flb')).to.be.above(position.y('Sst'))
+                expect(position.y('Fas')).to.be.above(position.y('Sst'))
+            })
+
+            it('Gröndalsviken between Nynäsgård and Nynäshamn', function () {
+                expect(position.y('Gdv')).to.be.above(position.y('Ngd'))
+                expect(position.y('Nyh')).to.be.above(position.y('Gdv'))
+            })
+
+            it('Södertälje Centrum between Hamn and Syd', function () {
+                expect(position.y('Söc')).to.be.above(position.y('Söd'))
+                expect(position.y('Söu')).to.be.above(position.y('Söc'))
+            })
+
+            it('Gnesta after Mölnbo', function () {
+                expect(position.y('Gn')).to.be.above(position.y('Mö'))
+            })
+        })
     })
 })
