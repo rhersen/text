@@ -1,9 +1,9 @@
 /* eslint better/explicit-return: 0, better/no-new: 0, fp/no-mutation: 0, fp/no-nil: 0, fp/no-this: 0, fp/no-unused-expression: 0 */
 
 import format from 'date-fns/format'
-import getHtml from './getHtml'
 
-const stations = {}
+import getHtml from './getHtml'
+import * as stations from './stations'
 
 const root = document.getElementById('root')
 root.insertAdjacentHTML('afterbegin', '<button id="update" style="font-size: 24px">söderut</button>')
@@ -35,13 +35,13 @@ function getStations() {
 
 function handleStations() {
     return this.status >= 200 && this.status < 400 ?
-        JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation.forEach(entry => stations[entry.LocationSignature] = entry.AdvertisedShortLocationName) :
+        stations.set(JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation) :
         (document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`);
 }
 
 function handleCurrent() {
     function setOuterHtml(result) {
-        document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, stations, format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss'))
+        document.getElementById('sheet').outerHTML = getHtml(result.TrainAnnouncement, format(result.INFO.LASTMODIFIED['@datetime'], 'H:mm:ss'))
     }
 
     return this.status >= 200 && this.status < 400 ?

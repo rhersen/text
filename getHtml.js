@@ -7,12 +7,12 @@ import formatLatestAnnouncement from './formatLatestAnnouncement'
 import * as groupAnnouncements from './groupAnnouncements'
 import * as position from './position'
 
-export default function getHtml(announcements, stationNames, lastModified) {
+export default function getHtml(announcements, lastModified) {
     const actual = filter(announcements, 'TimeAtLocation')
     const trains = groupAnnouncements.actual(actual)
 
     function htmlForTrain(a) {
-        return `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">${formatLatestAnnouncement(a, stationNames)}</div>`;
+        return `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">${formatLatestAnnouncement(a)}</div>`;
     }
 
     return [`<div id="sheet"><h1>${lastModified}</h1>`]

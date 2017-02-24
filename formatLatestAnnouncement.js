@@ -1,8 +1,9 @@
 import map from 'lodash.map'
 
 import * as delay from './delay'
+import * as stations from './stations'
 
-export default function formatLatestAnnouncement(a, stationNames) {
+export default function formatLatestAnnouncement(a) {
     function to() {
         return map(map(a.ToLocation, 'LocationName'), stationName)
     }
@@ -12,7 +13,7 @@ export default function formatLatestAnnouncement(a, stationNames) {
     }
 
     function stationName(locationSignature) {
-        return stationNames ? stationNames[locationSignature] : locationSignature
+        return stations.get(locationSignature, 'AdvertisedShortLocationName') || locationSignature
     }
 
     return a ?
