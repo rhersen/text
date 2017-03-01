@@ -17,7 +17,7 @@ export function actual(announcements) {
     return orderby(
         map(groupby(announcements, 'AdvertisedTrainIdent'), latestAnnouncement),
         [a => position.y(a.LocationSignature), 'ActivityType', 'TimeAtLocation'],
-        ['asc', (dir ? 'asc' : 'desc'), (dir ? 'desc' : 'asc')]
+        ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc']
     )
 }
 

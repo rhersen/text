@@ -36,7 +36,7 @@ function getStations() {
 function handleStations() {
     return this.status >= 200 && this.status < 400 ?
         stations.set(JSON.parse(this.response).RESPONSE.RESULT[0].TrainStation) :
-        (document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`);
+        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
 }
 
 function handleCurrent() {
@@ -46,5 +46,5 @@ function handleCurrent() {
 
     return this.status >= 200 && this.status < 400 ?
         setOuterHtml(JSON.parse(this.response).RESPONSE.RESULT[0]) :
-        (document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`);
+        document.getElementById('sheet').outerHTML = `<span id="sheet">${this.status} ${this.responseText}</span>`
 }

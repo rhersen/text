@@ -18,7 +18,7 @@ export default function formatLatestAnnouncement(a) {
 
     return a ?
         `<span class="wide">Tåg ${id(a)} mot </span>${to(a)} ${activity(a)} ${location(a)} ${delay.precision(a)} <span class="wide">kl</span> ${a.TimeAtLocation.substring(11, 16)}` :
-        'Aktuell information saknas';
+        'Aktuell information saknas'
 
 }
 
@@ -29,5 +29,5 @@ function id(a) {
 function activity(a) {
     return a.ActivityType === 'Ankomst' ?
         'ank<span class="wide">om till</span>' :
-        'avg<span class="wide">ick från</span>';
+        'avg<span class="wide">ick från</span>'
 }

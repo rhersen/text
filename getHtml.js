@@ -12,7 +12,7 @@ export default function getHtml(announcements, lastModified) {
     const trains = groupAnnouncements.actual(actual)
 
     function htmlForTrain(a) {
-        return `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">${formatLatestAnnouncement(a)}</div>`;
+        return `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">${formatLatestAnnouncement(a)}</div>`
     }
 
     return [`<div id="sheet"><h1>${lastModified}</h1>`]

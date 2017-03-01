@@ -21,7 +21,6 @@
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "=2.2.0",
     "lodash.filter": "4.x",
-    "lodash.findindex": "4.x",
     "lodash.foreach": "4.x",
     "lodash.groupby": "4.x",
     "lodash.includes": "4.x",

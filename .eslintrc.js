@@ -19,6 +19,17 @@ module.exports = {
     },
     "plugins": [],
     "rules": {
-        "linebreak-style": ["error", "unix"]
+        "complexity": ["error", 5],
+        "eqeqeq": ["error"],
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        "max-depth": ["error", 2],
+        "max-params": ["error", 4],
+        "max-statements": ["error", 23],
+        "no-extra-parens": ["error"],
+        "no-shadow": ["error"],
+        "quotes": ["error", "single", { "avoidEscape": true }],
+        "semi": ["error", "never"],
+        "no-unused-vars": "off"
     }
 };
