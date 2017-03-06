@@ -19,7 +19,7 @@ module.exports = {
     },
     "plugins": [],
     "rules": {
-        "complexity": ["error", 5],
+        "complexity": ["error", 6],
         "eqeqeq": ["error"],
         "indent": ["error", 4],
         "linebreak-style": ["error", "unix"],

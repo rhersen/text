@@ -228,15 +228,21 @@ describe('position', function () {
         }, {
             'Geometry': {'WGS84': {'east': 17.9317290389689, 'north': 58.8992532022516}}, 'LocationSignature': 'Gdv'
         }, {
+            'Geometry': {'WGS84': {'east': 17.9765802941488, 'north': 59.0687886825316}}, 'LocationSignature': 'Hfa'
+        }, {
             'Geometry': {'WGS84': {'east': 17.4182880540071, 'north': 59.0473611846192}}, 'LocationSignature': 'Mö'
         }, {
             'Geometry': {'WGS84': {'east': 17.9425294893135, 'north': 58.913736221869}}, 'LocationSignature': 'Ngd'
         }, {
             'Geometry': {'WGS84': {'east': 17.9499318421396, 'north': 58.9003126162184}}, 'LocationSignature': 'Nyh'
         }, {
+            'Geometry': {'WGS84': {'east': 17.879821813887, 'north': 59.5843599154224}}, 'LocationSignature': 'Rs'
+        }, {
             'Geometry': {'WGS84': {'east': 18.0605085396167, 'north': 59.3134227390133}}, 'LocationSignature': 'Sst'
         }, {
             'Geometry': {'WGS84': {'east': 17.9271105955665, 'north': 59.0295048975674}}, 'LocationSignature': 'Ssä'
+        }, {
+            'Geometry': {'WGS84': {'east': 17.9971886396718, 'north': 59.2546617015652}}, 'LocationSignature': 'Sta'
         }, {
             'Geometry': {'WGS84': {'east': 17.9718245614723, 'north': 59.3608383170324}}, 'LocationSignature': 'Sub'
         }, {
@@ -252,9 +258,32 @@ describe('position', function () {
         }, {
             'Geometry': {'WGS84': {'east': 17.8992338732342, 'north': 59.5204849532449}}, 'LocationSignature': 'Upv'
         }, {
+            'Geometry': {'WGS84': {'east': 17.5318845496334, 'north': 59.5694322754827}}, 'LocationSignature': 'Bål'
+        }, {
             'Geometry': {'WGS84': {'east': 17.31284113434, 'north': 59.0485492768045}}, 'LocationSignature': 'Gn'
         }])
     })
+
+    describe('x', function () {
+        it('left', function () {
+            expect(position.x('Bål')).to.equal('left')
+            expect(position.x('Sub')).to.equal('left')
+            expect(position.x('Sta')).to.equal('left')
+            expect(position.x('Mö')).to.equal('left')
+        })
+
+        it('center', function () {
+            expect(position.x('Cst')).to.equal('center')
+            expect(position.x('Sst')).to.equal('center')
+        })
+        it('right', function () {
+            expect(position.x('Rs')).to.equal('right')
+            expect(position.x('Upv')).to.equal('right')
+            expect(position.x('Udl')).to.equal('right')
+            expect(position.x('Hfa')).to.equal('right')
+        })
+    })
+
     describe('y', function () {
         describe('sorts according to location, north to south', function () {
             it('within each branch', function () {

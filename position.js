@@ -1,18 +1,15 @@
-import includes from 'lodash.includes'
-
 import * as stations from './stations'
 
-const old = [['Äs', 'Åbe', 'Sst', 'Cst', 'Ke'],
-    ['Sub', 'Spå', 'Bkb', 'Jkb', 'Khä', 'Kän', 'Bro', 'Bål'],
-    ['So', 'Udl', 'Hel', 'Sol', 'Hgv', 'Nvk', 'R', 'Upv', 'Rs', 'Mr', 'Arnc', 'Kn', 'U'],
-    ['Sta', 'Hu', 'Flb', 'Tul', 'Tu', 'Rön', 'Öte', 'Söd', 'Söc', 'Söu', 'Jn', 'Mö', 'Gn'],
-    ['Fas', 'Tåd', 'Skg', 'Hnd', 'Jbo', 'Vhe', 'Kda', 'Ts', 'Hfa', 'Ssä', 'Öso', 'Ngd', 'Gdv', 'Nyh']]
-
 export function x(location) {
-    return includes(old[3], location) ? 'left' :
-        includes(old[1], location) ? 'left' :
-            includes(old[0], location) ? 'center' :
-                'right'
+    const n = wgsNorth(location)
+    const e = wgsEast(location)
+
+    return n > 59.27 && n < 59.35 ? 'center' :
+        n > 59.58 ? 'right' :
+            n < 59.08 && e > 17.84 ? 'right' :
+                e > 17.898 && n > 59.37 ? 'right' :
+                    e > 18 ? 'right' :
+                        'left'
 }
 
 export function y(location) {
@@ -28,6 +25,11 @@ function north(location) {
 
 function between(loc1, loc2) {
     return (wgsNorth(loc1) + wgsNorth(loc2)) / 2
+}
+
+function wgsEast(location) {
+    const geometry = stations.get(location, 'Geometry')
+    return geometry && geometry.WGS84 && geometry.WGS84.east
 }
 
 function wgsNorth(location) {
