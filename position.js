@@ -2,14 +2,17 @@ import * as stations from './stations'
 
 export function x(location) {
     const n = wgsNorth(location)
-    const e = wgsEast(location)
 
-    return n > 59.27 && n < 59.35 ? 'center' :
-        n > 59.58 ? 'right' :
-            n < 59.08 && e > 17.84 ? 'right' :
-                e > 17.898 && n > 59.37 ? 'right' :
-                    e > 18 ? 'right' :
-                        'left'
+    return n > 59.64 ? 'right' :
+        n > 59.407 ? leftRight(location, 17.87) :
+            n > 59.36 ? leftRight(location, 18) :
+                n > 59.27 ? 'center' :
+                    n > 59.17 ? leftRight(location, 18) :
+                        leftRight(location, 17.87)
+}
+
+function leftRight(location, limit) {
+    return wgsEast(location) < limit ? 'left' : 'right'
 }
 
 export function y(location) {

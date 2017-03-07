@@ -216,6 +216,8 @@ describe('groupAnnouncements', function () {
 describe('position', function () {
     beforeEach(function () {
         stations.set([{
+            'Geometry': {'WGS84': {'east': 17.9284893924452, 'north': 59.6490721208678}}, 'LocationSignature': 'Arnc'
+        }, {
             'Geometry': {'WGS84': {'east': 17.8636783437106, 'north': 59.4054464125127}}, 'LocationSignature': 'Bkb'
         }, {
             'Geometry': {'WGS84': {'east': 17.6329583487067, 'north': 59.5123000136841}}, 'LocationSignature': 'Bro'
@@ -258,6 +260,8 @@ describe('position', function () {
         }, {
             'Geometry': {'WGS84': {'east': 17.8992338732342, 'north': 59.5204849532449}}, 'LocationSignature': 'Upv'
         }, {
+            'Geometry': {'WGS84': {'east': 18.0112683523563, 'north': 59.278590231139}}, 'LocationSignature': 'Äs'
+        }, {
             'Geometry': {'WGS84': {'east': 17.5318845496334, 'north': 59.5694322754827}}, 'LocationSignature': 'Bål'
         }, {
             'Geometry': {'WGS84': {'east': 17.31284113434, 'north': 59.0485492768045}}, 'LocationSignature': 'Gn'
@@ -274,12 +278,14 @@ describe('position', function () {
 
         it('center', function () {
             expect(position.x('Cst')).to.equal('center')
-            expect(position.x('Sst')).to.equal('center')
+            expect(position.x('Äs')).to.equal('center')
         })
         it('right', function () {
+            expect(position.x('Arnc')).to.equal('right')
             expect(position.x('Rs')).to.equal('right')
             expect(position.x('Upv')).to.equal('right')
             expect(position.x('Udl')).to.equal('right')
+            expect(position.x('Fas')).to.equal('right')
             expect(position.x('Hfa')).to.equal('right')
         })
     })
