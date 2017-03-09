@@ -4,11 +4,11 @@ export function x(location) {
     const n = wgsNorth(location)
 
     return n > 59.64 ? 'right' :
-        n > 59.407 ? leftRight(location, 17.87) :
+        n > 59.407 ? leftRight(location, 17.84) :
             n > 59.36 ? leftRight(location, 18) :
                 n > 59.27 ? 'center' :
                     n > 59.17 ? leftRight(location, 18) :
-                        leftRight(location, 17.87)
+                        leftRight(location, 17.84)
 }
 
 function leftRight(location, limit) {

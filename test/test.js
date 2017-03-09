@@ -230,7 +230,15 @@ describe('position', function () {
         }, {
             'Geometry': {'WGS84': {'east': 17.9317290389689, 'north': 58.8992532022516}}, 'LocationSignature': 'Gdv'
         }, {
+            'Geometry': {'WGS84': {'east': 17.9631198951495, 'north': 59.4085359646815}}, 'LocationSignature': 'Hel'
+        }, {
             'Geometry': {'WGS84': {'east': 17.9765802941488, 'north': 59.0687886825316}}, 'LocationSignature': 'Hfa'
+        }, {
+            'Geometry': {'WGS84': {'east': 17.8331196186415, 'north': 59.4238058774284}}, 'LocationSignature': 'Jkb'
+        }, {
+            'Geometry': { 'WGS84': {'east': 18.0284109437907, 'north': 59.3402692354015}}, 'LocationSignature': 'Ke'
+        }, {
+            'Geometry': {'WGS84': {'east': 17.861556068155, 'north': 59.6277190922148}}, 'LocationSignature': 'Mr'
         }, {
             'Geometry': {'WGS84': {'east': 17.4182880540071, 'north': 59.0473611846192}}, 'LocationSignature': 'Mö'
         }, {
@@ -239,6 +247,8 @@ describe('position', function () {
             'Geometry': {'WGS84': {'east': 17.9499318421396, 'north': 58.9003126162184}}, 'LocationSignature': 'Nyh'
         }, {
             'Geometry': {'WGS84': {'east': 17.879821813887, 'north': 59.5843599154224}}, 'LocationSignature': 'Rs'
+        }, {
+            'Geometry': {'WGS84': {'east': 17.9152982601902, 'north': 59.4755142340393}}, 'LocationSignature': 'R'
         }, {
             'Geometry': {'WGS84': {'east': 18.0605085396167, 'north': 59.3134227390133}}, 'LocationSignature': 'Sst'
         }, {
@@ -265,25 +275,33 @@ describe('position', function () {
             'Geometry': {'WGS84': {'east': 17.5318845496334, 'north': 59.5694322754827}}, 'LocationSignature': 'Bål'
         }, {
             'Geometry': {'WGS84': {'east': 17.31284113434, 'north': 59.0485492768045}}, 'LocationSignature': 'Gn'
+        }, {
+            'Geometry': {'WGS84': {'east': 17.7870992091886, 'north': 59.7254088956277}}, 'LocationSignature': 'Kn'
         }])
     })
 
     describe('x', function () {
         it('left', function () {
             expect(position.x('Bål')).to.equal('left')
+            expect(position.x('Jkb')).to.equal('left')
+            expect(position.x('Bkb')).to.equal('left')
             expect(position.x('Sub')).to.equal('left')
             expect(position.x('Sta')).to.equal('left')
             expect(position.x('Mö')).to.equal('left')
         })
 
         it('center', function () {
-            expect(position.x('Cst')).to.equal('center')
+            expect(position.x('Ke')).to.equal('center')
             expect(position.x('Äs')).to.equal('center')
         })
         it('right', function () {
+            expect(position.x('Kn')).to.equal('right')
+            expect(position.x('Mr')).to.equal('right')
             expect(position.x('Arnc')).to.equal('right')
             expect(position.x('Rs')).to.equal('right')
             expect(position.x('Upv')).to.equal('right')
+            expect(position.x('R')).to.equal('right')
+            expect(position.x('Hel')).to.equal('right')
             expect(position.x('Udl')).to.equal('right')
             expect(position.x('Fas')).to.equal('right')
             expect(position.x('Hfa')).to.equal('right')
