@@ -1,13 +1,11 @@
-import filter from 'lodash.filter'
 import groupby from 'lodash.groupby'
 import map from 'lodash.map'
 import maxby from 'lodash.maxby'
 import orderby from 'lodash.orderby'
-import reject from 'lodash.reject'
 
 import * as position from './position'
 
-export function actual(announcements) {
+export default function (announcements) {
     function latestAnnouncement(v) {
         return maxby(v, a => a.TimeAtLocation + a.ActivityType)
     }
@@ -19,11 +17,4 @@ export function actual(announcements) {
         [a => position.y(a.LocationSignature), 'ActivityType', 'TimeAtLocation'],
         ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc']
     )
-}
-
-export function nearest(announcements) {
-    return {
-        prev: actual(filter(announcements, 'TimeAtLocation'))[0],
-        next: reject(announcements, 'TimeAtLocation')[0]
-    }
 }
