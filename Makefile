@@ -4,10 +4,10 @@ pull:
 	git pull
 
 mocha:
-	node_modules/.bin/mocha --compilers js:babel-core/register
+	npm run test
 
 browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js groupAnnouncements.js position.js delay.js
-	node_modules/.bin/webpack --optimize-minimize
+	npm run build
 
 /opt/nginx-1.10.2/text/browser-bundle.js:	browser-bundle.js
 	cp browser-bundle.js /opt/nginx-1.10.2/text/
