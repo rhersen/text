@@ -6,7 +6,7 @@ pull:
 mocha:
 	npm run test
 
-browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js groupAnnouncements.js position.js delay.js
+browser-bundle.js:	index.js getHtml.js formatLatestAnnouncement.js current.js position.js delay.js
 	npm run build
 
 /opt/nginx-1.10.2/text/browser-bundle.js:	browser-bundle.js

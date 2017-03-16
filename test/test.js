@@ -3,13 +3,22 @@
 import {expect} from 'chai'
 
 import current from '../current'
-import groupAnnouncements from '../groupAnnouncements'
 import * as position from '../position'
 import * as stations from '../stations'
 
 describe('current', function () {
     it('returns empty array', function () {
         expect(current([])).to.be.an('array').that.is.empty
+    })
+
+    it('does nothing to single train', function () {
+        const announcements = [{
+            'AdvertisedTrainIdent': '2608',
+            'LocationSignature': 'Cst',
+            'TimeAtLocation': '2017-02-02T07:11:00'
+        }]
+
+        expect(current(announcements)).to.deep.equal(announcements)
     })
 
     it('removes arrival to ToLocation', function () {
@@ -58,44 +67,6 @@ describe('current', function () {
             .with.deep.property('[0].AdvertisedTrainIdent')
             .that.equals('2611')
     })
-})
-
-describe('groupAnnouncements', function () {
-    it('returns empty array', function () {
-        const actual = groupAnnouncements([])
-
-        expect(actual).to.be.an('array').that.is.empty
-    })
-
-    it('does nothing to single train', function () {
-        const announcements = [{
-            'AdvertisedTrainIdent': '2608',
-            'LocationSignature': 'Cst',
-            'TimeAtLocation': '2017-02-02T07:11:00'
-        }]
-
-        const actual = groupAnnouncements(announcements)
-
-        expect(actual).to.deep.equal(announcements)
-    })
-
-    it('returns only the latest announcement for each train', function () {
-        const announcements = [{
-            'ActivityType': 'Ankomst',
-            'AdvertisedTrainIdent': '2608',
-            'LocationSignature': 'Cst',
-            'TimeAtLocation': '2017-02-02T07:11:00'
-        }, {
-            'ActivityType': 'Ankomst',
-            'AdvertisedTrainIdent': '2608',
-            'LocationSignature': 'Ke',
-            'TimeAtLocation': '2017-02-02T07:14:00'
-        }]
-
-        const actual = groupAnnouncements(announcements)
-
-        expect(actual[0].TimeAtLocation).to.match(/7:14/)
-    })
 
     it('Avgang is considered more recent than Ankomst', function () {
         const announcements = [{
@@ -110,7 +81,7 @@ describe('groupAnnouncements', function () {
             'TimeAtLocation': '2017-02-02T07:14:00'
         }]
 
-        const actual = groupAnnouncements(announcements)
+        const actual = current(announcements)
 
         expect(actual[0].ActivityType).to.equal('Avgang')
     })
@@ -128,7 +99,7 @@ describe('groupAnnouncements', function () {
             'TimeAtLocation': '2017-02-07T18:12:00'
         }]
 
-        const actual = groupAnnouncements(announcements)
+        const actual = current(announcements)
 
         expect(actual[0].ActivityType).to.equal('Ankomst')
         expect(actual[1].ActivityType).to.equal('Avgang')
@@ -147,7 +118,7 @@ describe('groupAnnouncements', function () {
             'TimeAtLocation': '2017-02-06T20:48:00'
         }]
 
-        const actual = groupAnnouncements(announcements)
+        const actual = current(announcements)
 
         expect(actual[0].TimeAtLocation).to.match(/20:48/)
         expect(actual[1].TimeAtLocation).to.match(/20:49/)
@@ -166,7 +137,7 @@ describe('groupAnnouncements', function () {
             'TimeAtLocation': '2017-02-07T17:05:00'
         }]
 
-        const actual = groupAnnouncements(announcements)
+        const actual = current(announcements)
 
         expect(actual[0].TimeAtLocation).to.match(/17:05/)
         expect(actual[1].TimeAtLocation).to.match(/17:01/)
