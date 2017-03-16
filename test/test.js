@@ -2,20 +2,18 @@
 
 import {expect} from 'chai'
 
-import getHtml from '../getHtml'
+import current from '../current'
 import groupAnnouncements from '../groupAnnouncements'
 import * as position from '../position'
 import * as stations from '../stations'
 
-describe('getHtml', function () {
-    it('returns empty div', function () {
-        const actual = getHtml([])
-
-        expect(actual).to.equal('<div id="sheet"><h1>undefined</h1>\n</div>')
+describe('current', function () {
+    it('returns empty array', function () {
+        expect(current([])).to.be.an('array').that.is.empty
     })
 
     it('removes arrival to ToLocation', function () {
-        const actual = getHtml([{
+        const actual = current([{
             'ActivityType': 'Avgang',
             'AdvertisedTrainIdent': '2909',
             'LocationSignature': 'Tul',
@@ -35,12 +33,14 @@ describe('getHtml', function () {
             'TimeAtLocation': '2017-02-06T07:37:00'
         }])
 
-        expect(actual).to.match(/Tåg 2611/)
-        expect(actual).to.not.match(/Tåg 2909/)
+        expect(actual)
+            .to.be.an('array').of.length(1)
+            .with.deep.property('[0].AdvertisedTrainIdent')
+            .that.equals('2611')
     })
 
     it('removes trains that have no TimeAtLocation', function () {
-        const actual = getHtml([{
+        const actual = current([{
             'ActivityType': 'Avgang',
             'AdvertisedTrainIdent': '2909',
             'LocationSignature': 'Tul',
@@ -53,8 +53,10 @@ describe('getHtml', function () {
             'TimeAtLocation': '2017-02-06T07:37:00'
         }])
 
-        expect(actual).to.match(/Tåg 2611/)
-        expect(actual).to.not.match(/Tåg 2909/)
+        expect(actual)
+            .to.be.an('array').of.length(1)
+            .with.deep.property('[0].AdvertisedTrainIdent')
+            .that.equals('2611')
     })
 })
 
