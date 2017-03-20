@@ -7,6 +7,10 @@ import * as position from '../position'
 import * as stations from '../stations'
 
 describe('current', function () {
+    beforeEach(function () {
+        stations.set(trainStations)
+    })
+
     it('returns empty array', function () {
         expect(current([])).to.be.an('array').that.is.empty
     })
@@ -146,69 +150,7 @@ describe('current', function () {
 
 describe('position', function () {
     beforeEach(function () {
-        stations.set([{
-            'Geometry': {'WGS84': {'east': 17.9284893924452, 'north': 59.6490721208678}}, 'LocationSignature': 'Arnc'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.8636783437106, 'north': 59.4054464125127}}, 'LocationSignature': 'Bkb'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.6329583487067, 'north': 59.5123000136841}}, 'LocationSignature': 'Bro'
-        }, {
-            'Geometry': {'WGS84': {'east': 18.0572670185758, 'north': 59.3299708428723}}, 'LocationSignature': 'Cst'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9478417984456, 'north': 59.2192614898848}}, 'LocationSignature': 'Flb'
-        }, {
-            'Geometry': {'WGS84': {'east': 18.1041371217327, 'north': 59.2367049603428}}, 'LocationSignature': 'Fas'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9317290389689, 'north': 58.8992532022516}}, 'LocationSignature': 'Gdv'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9631198951495, 'north': 59.4085359646815}}, 'LocationSignature': 'Hel'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9765802941488, 'north': 59.0687886825316}}, 'LocationSignature': 'Hfa'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.8331196186415, 'north': 59.4238058774284}}, 'LocationSignature': 'Jkb'
-        }, {
-            'Geometry': { 'WGS84': {'east': 18.0284109437907, 'north': 59.3402692354015}}, 'LocationSignature': 'Ke'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.861556068155, 'north': 59.6277190922148}}, 'LocationSignature': 'Mr'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.4182880540071, 'north': 59.0473611846192}}, 'LocationSignature': 'Mö'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9425294893135, 'north': 58.913736221869}}, 'LocationSignature': 'Ngd'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9499318421396, 'north': 58.9003126162184}}, 'LocationSignature': 'Nyh'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.879821813887, 'north': 59.5843599154224}}, 'LocationSignature': 'Rs'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9152982601902, 'north': 59.4755142340393}}, 'LocationSignature': 'R'
-        }, {
-            'Geometry': {'WGS84': {'east': 18.0605085396167, 'north': 59.3134227390133}}, 'LocationSignature': 'Sst'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9271105955665, 'north': 59.0295048975674}}, 'LocationSignature': 'Ssä'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9971886396718, 'north': 59.2546617015652}}, 'LocationSignature': 'Sta'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9718245614723, 'north': 59.3608383170324}}, 'LocationSignature': 'Sub'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.6283502455854, 'north': 59.1911449201246}}, 'LocationSignature': 'Söc'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.6472154570982, 'north': 59.1776349084721}}, 'LocationSignature': 'Söd'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.6454864871351, 'north': 59.1634199957082}}, 'LocationSignature': 'Söu'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.9052694195429, 'north': 59.2056989275289}}, 'LocationSignature': 'Tul'
-        }, {
-            'Geometry': {'WGS84': {'east': 18.0012905848179, 'north': 59.3797706297159}}, 'LocationSignature': 'Udl'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.8992338732342, 'north': 59.5204849532449}}, 'LocationSignature': 'Upv'
-        }, {
-            'Geometry': {'WGS84': {'east': 18.0112683523563, 'north': 59.278590231139}}, 'LocationSignature': 'Äs'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.5318845496334, 'north': 59.5694322754827}}, 'LocationSignature': 'Bål'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.31284113434, 'north': 59.0485492768045}}, 'LocationSignature': 'Gn'
-        }, {
-            'Geometry': {'WGS84': {'east': 17.7870992091886, 'north': 59.7254088956277}}, 'LocationSignature': 'Kn'
-        }])
+        stations.set(trainStations)
     })
 
     describe('x', function () {
@@ -272,3 +214,67 @@ describe('position', function () {
         })
     })
 })
+
+const trainStations = [{
+    'Geometry': {'WGS84': {'east': 17.9284893924452, 'north': 59.6490721208678}}, 'LocationSignature': 'Arnc'
+}, {
+    'Geometry': {'WGS84': {'east': 17.8636783437106, 'north': 59.4054464125127}}, 'LocationSignature': 'Bkb'
+}, {
+    'Geometry': {'WGS84': {'east': 17.6329583487067, 'north': 59.5123000136841}}, 'LocationSignature': 'Bro'
+}, {
+    'Geometry': {'WGS84': {'east': 18.0572670185758, 'north': 59.3299708428723}}, 'LocationSignature': 'Cst'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9478417984456, 'north': 59.2192614898848}}, 'LocationSignature': 'Flb'
+}, {
+    'Geometry': {'WGS84': {'east': 18.1041371217327, 'north': 59.2367049603428}}, 'LocationSignature': 'Fas'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9317290389689, 'north': 58.8992532022516}}, 'LocationSignature': 'Gdv'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9631198951495, 'north': 59.4085359646815}}, 'LocationSignature': 'Hel'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9765802941488, 'north': 59.0687886825316}}, 'LocationSignature': 'Hfa'
+}, {
+    'Geometry': {'WGS84': {'east': 17.8331196186415, 'north': 59.4238058774284}}, 'LocationSignature': 'Jkb'
+}, {
+    'Geometry': {'WGS84': {'east': 18.0284109437907, 'north': 59.3402692354015}}, 'LocationSignature': 'Ke'
+}, {
+    'Geometry': {'WGS84': {'east': 17.861556068155, 'north': 59.6277190922148}}, 'LocationSignature': 'Mr'
+}, {
+    'Geometry': {'WGS84': {'east': 17.4182880540071, 'north': 59.0473611846192}}, 'LocationSignature': 'Mö'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9425294893135, 'north': 58.913736221869}}, 'LocationSignature': 'Ngd'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9499318421396, 'north': 58.9003126162184}}, 'LocationSignature': 'Nyh'
+}, {
+    'Geometry': {'WGS84': {'east': 17.879821813887, 'north': 59.5843599154224}}, 'LocationSignature': 'Rs'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9152982601902, 'north': 59.4755142340393}}, 'LocationSignature': 'R'
+}, {
+    'Geometry': {'WGS84': {'east': 18.0605085396167, 'north': 59.3134227390133}}, 'LocationSignature': 'Sst'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9271105955665, 'north': 59.0295048975674}}, 'LocationSignature': 'Ssä'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9971886396718, 'north': 59.2546617015652}}, 'LocationSignature': 'Sta'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9718245614723, 'north': 59.3608383170324}}, 'LocationSignature': 'Sub'
+}, {
+    'Geometry': {'WGS84': {'east': 17.6283502455854, 'north': 59.1911449201246}}, 'LocationSignature': 'Söc'
+}, {
+    'Geometry': {'WGS84': {'east': 17.6472154570982, 'north': 59.1776349084721}}, 'LocationSignature': 'Söd'
+}, {
+    'Geometry': {'WGS84': {'east': 17.6454864871351, 'north': 59.1634199957082}}, 'LocationSignature': 'Söu'
+}, {
+    'Geometry': {'WGS84': {'east': 17.9052694195429, 'north': 59.2056989275289}}, 'LocationSignature': 'Tul'
+}, {
+    'Geometry': {'WGS84': {'east': 18.0012905848179, 'north': 59.3797706297159}}, 'LocationSignature': 'Udl'
+}, {
+    'Geometry': {'WGS84': {'east': 17.8992338732342, 'north': 59.5204849532449}}, 'LocationSignature': 'Upv'
+}, {
+    'Geometry': {'WGS84': {'east': 18.0112683523563, 'north': 59.278590231139}}, 'LocationSignature': 'Äs'
+}, {
+    'Geometry': {'WGS84': {'east': 17.5318845496334, 'north': 59.5694322754827}}, 'LocationSignature': 'Bål'
+}, {
+    'Geometry': {'WGS84': {'east': 17.31284113434, 'north': 59.0485492768045}}, 'LocationSignature': 'Gn'
+}, {
+    'Geometry': {'WGS84': {'east': 17.7870992091886, 'north': 59.7254088956277}}, 'LocationSignature': 'Kn'
+}]
