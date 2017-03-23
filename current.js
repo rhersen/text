@@ -8,7 +8,7 @@ import reject from 'lodash.reject'
 import * as position from './position'
 
 export default function current(announcements) {
-    return reject(groupAnnouncements(filter(announcements, 'TimeAtLocation')), hasArrivedAtDestination)
+    return reject(map(groupAnnouncements(filter(announcements, 'TimeAtLocation')), wrap), hasArrivedAtDestination)
 }
 
 function groupAnnouncements(announcements) {
@@ -16,13 +16,17 @@ function groupAnnouncements(announcements) {
 
     return orderby(
         map(groupby(announcements, 'AdvertisedTrainIdent'), latestAnnouncement),
-        [a => position.y(a.actual.LocationSignature), 'actual.ActivityType', 'actual.TimeAtLocation'],
+        [a => position.y(a.LocationSignature), 'ActivityType', 'TimeAtLocation'],
         ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc']
     )
 }
 
+function wrap(a) {
+    return {actual: a}
+}
+
 function latestAnnouncement(v) {
-    return {actual: maxby(v, a => a.TimeAtLocation + a.ActivityType)}
+    return maxby(v, a => a.TimeAtLocation + a.ActivityType)
 }
 
 function hasArrivedAtDestination(train) {
