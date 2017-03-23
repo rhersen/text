@@ -8,7 +8,8 @@ import * as position from './position'
 export default function getHtml(announcements, lastModified) {
     const trains = current(announcements)
 
-    function htmlForTrain(a) {
+    function htmlForTrain(train) {
+        const a = train.actual
         return `<div style="color: ${delay.color(a)}; text-align: ${position.x(a.LocationSignature)};">${formatLatestAnnouncement(a)}</div>`
     }
 

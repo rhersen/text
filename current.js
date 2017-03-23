@@ -16,15 +16,15 @@ function groupAnnouncements(announcements) {
 
     return orderby(
         map(groupby(announcements, 'AdvertisedTrainIdent'), latestAnnouncement),
-        [a => position.y(a.LocationSignature), 'ActivityType', 'TimeAtLocation'],
+        [a => position.y(a.actual.LocationSignature), 'actual.ActivityType', 'actual.TimeAtLocation'],
         ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc']
     )
 }
 
 function latestAnnouncement(v) {
-    return maxby(v, a => a.TimeAtLocation + a.ActivityType)
+    return {actual: maxby(v, a => a.TimeAtLocation + a.ActivityType)}
 }
 
-function hasArrivedAtDestination(a) {
-    return a.ActivityType === 'Ankomst' && map(a.ToLocation, 'LocationName').join() === a.LocationSignature
+function hasArrivedAtDestination(train) {
+    return train.actual.ActivityType === 'Ankomst' && map(train.actual.ToLocation, 'LocationName').join() === train.actual.LocationSignature
 }

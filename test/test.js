@@ -16,13 +16,12 @@ describe('current', function () {
     })
 
     it('does nothing to single train', function () {
-        const announcements = [{
+        const announcement = {
             'AdvertisedTrainIdent': '2608',
             'LocationSignature': 'Cst',
             'TimeAtLocation': '2017-02-02T07:11:00'
-        }]
-
-        expect(current(announcements)).to.deep.equal(announcements)
+        }
+        expect(current([announcement])[0].actual).to.deep.equal(announcement)
     })
 
     it('removes arrival to ToLocation', function () {
@@ -48,7 +47,7 @@ describe('current', function () {
 
         expect(actual)
             .to.be.an('array').of.length(1)
-            .with.deep.property('[0].AdvertisedTrainIdent')
+            .with.deep.property('[0].actual.AdvertisedTrainIdent')
             .that.equals('2611')
     })
 
@@ -68,7 +67,7 @@ describe('current', function () {
 
         expect(actual)
             .to.be.an('array').of.length(1)
-            .with.deep.property('[0].AdvertisedTrainIdent')
+            .with.deep.property('[0].actual.AdvertisedTrainIdent')
             .that.equals('2611')
     })
 
@@ -87,7 +86,7 @@ describe('current', function () {
 
         const actual = current(announcements)
 
-        expect(actual[0].ActivityType).to.equal('Avgang')
+        expect(actual[0].actual.ActivityType).to.equal('Avgang')
     })
 
     it('sorts Avgang below Ankomst for southbound', function () {
@@ -105,8 +104,8 @@ describe('current', function () {
 
         const actual = current(announcements)
 
-        expect(actual[0].ActivityType).to.equal('Ankomst')
-        expect(actual[1].ActivityType).to.equal('Avgang')
+        expect(actual[0].actual.ActivityType).to.equal('Ankomst')
+        expect(actual[1].actual.ActivityType).to.equal('Avgang')
     })
 
     it('sorts northbound by time, ascending, if ActivityType is same', function () {
@@ -124,8 +123,8 @@ describe('current', function () {
 
         const actual = current(announcements)
 
-        expect(actual[0].TimeAtLocation).to.match(/20:48/)
-        expect(actual[1].TimeAtLocation).to.match(/20:49/)
+        expect(actual[0].actual.TimeAtLocation).to.match(/20:48/)
+        expect(actual[1].actual.TimeAtLocation).to.match(/20:49/)
     })
 
     it('sorts southbound by time, descending, if ActivityType is same', function () {
@@ -143,8 +142,8 @@ describe('current', function () {
 
         const actual = current(announcements)
 
-        expect(actual[0].TimeAtLocation).to.match(/17:05/)
-        expect(actual[1].TimeAtLocation).to.match(/17:01/)
+        expect(actual[0].actual.TimeAtLocation).to.match(/17:05/)
+        expect(actual[1].actual.TimeAtLocation).to.match(/17:01/)
     })
 })
 
