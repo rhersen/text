@@ -8,25 +8,22 @@ import reject from 'lodash.reject'
 import * as position from './position'
 
 export default function current(announcements) {
-    return reject(map(groupAnnouncements(filter(announcements, 'TimeAtLocation')), wrap), hasArrivedAtDestination)
+    const grouped = groupby(announcements, 'AdvertisedTrainIdent')
+    const object = filter(map(grouped, announcementsToObject), 'actual')
+    const sorted = sortTrains(object, direction(announcements))
+    return reject(sorted, hasArrivedAtDestination)
 }
 
-function groupAnnouncements(announcements) {
-    const dir = announcements.length && /\d\d\d[13579]/.test(announcements[0].AdvertisedTrainIdent)
-
-    return orderby(
-        map(groupby(announcements, 'AdvertisedTrainIdent'), latestAnnouncement),
-        [a => position.y(a.LocationSignature), 'ActivityType', 'TimeAtLocation'],
-        ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc']
-    )
+function announcementsToObject(v) {
+    return {actual: maxby(filter(v, 'TimeAtLocation'), a => a.TimeAtLocation + a.ActivityType)}
 }
 
-function wrap(a) {
-    return {actual: a}
+function sortTrains(object, dir) {
+    return orderby(object, [a => position.y(a.actual.LocationSignature), 'actual.ActivityType', 'actual.TimeAtLocation'], ['asc', dir ? 'asc' : 'desc', dir ? 'desc' : 'asc'])
 }
 
-function latestAnnouncement(v) {
-    return maxby(v, a => a.TimeAtLocation + a.ActivityType)
+function direction(announcements) {
+    return announcements.length && /\d\d\d[13579]/.test(announcements[0].AdvertisedTrainIdent)
 }
 
 function hasArrivedAtDestination(train) {
