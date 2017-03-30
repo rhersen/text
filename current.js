@@ -15,7 +15,10 @@ export default function current(announcements) {
 }
 
 function announcementsToObject(v) {
-    return {actual: maxby(filter(v, 'TimeAtLocation'), a => a.TimeAtLocation + a.ActivityType)}
+    const actual = maxby(filter(v, 'TimeAtLocation'), a => a.TimeAtLocation + a.ActivityType)
+    const next = actual && actual.ActivityType === 'Avgang' && filter(reject(v, 'TimeAtLocation'), {ActivityType: 'Ankomst'})[0]
+
+    return {actual, next}
 }
 
 function sortTrains(object, dir) {
