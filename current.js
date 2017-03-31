@@ -2,6 +2,7 @@ import filter from 'lodash.filter'
 import groupby from 'lodash.groupby'
 import map from 'lodash.map'
 import maxby from 'lodash.maxby'
+import minby from 'lodash.minby'
 import orderby from 'lodash.orderby'
 import reject from 'lodash.reject'
 
@@ -16,7 +17,8 @@ export default function current(announcements) {
 
 function announcementsToObject(v) {
     const actual = maxby(filter(v, 'TimeAtLocation'), a => a.TimeAtLocation + a.ActivityType)
-    const next = actual && actual.ActivityType === 'Avgang' && filter(reject(v, 'TimeAtLocation'), {ActivityType: 'Ankomst'})[0]
+    const isDeparture = actual && actual.ActivityType === 'Avgang'
+    const next = isDeparture && minby(filter(reject(v, 'TimeAtLocation'), {ActivityType: 'Ankomst'}), 'AdvertisedTimeAtLocation')
 
     return {actual, next}
 }
