@@ -127,28 +127,6 @@ describe('current', function () {
         expect(actual[1].actual.TimeAtLocation).to.match(/20:49/)
     })
 
-    it('next', function () {
-        const announcements = [{
-            'ActivityType': 'Avgang',
-            'AdvertisedTimeAtLocation': '2017-03-23T17:42:00',
-            'AdvertisedTrainIdent': '2251',
-            'LocationSignature': 'Flb',
-            'ToLocation': [{'LocationName': 'Tu', 'Priority': 1, 'Order': 0}],
-            'ModifiedTime': '2017-03-23T16:42:10.564Z',
-            'TimeAtLocation': '2017-03-23T17:41:00'
-        }, {
-            'ActivityType': 'Ankomst',
-            'AdvertisedTimeAtLocation': '2017-03-23T17:45:00',
-            'AdvertisedTrainIdent': '2251',
-            'LocationSignature': 'Tul',
-            'ToLocation': [{'LocationName': 'Tu', 'Priority': 1, 'Order': 0}],
-            'ModifiedTime': '2017-03-23T00:08:46.723Z'
-        }]
-
-        expect(current(announcements)[0].actual.TimeAtLocation).to.match(/17:41/)
-        expect(current(announcements)[0].next.AdvertisedTimeAtLocation).to.match(/17:45/)
-    })
-
     it('no next if latest is arrival', function () {
         const announcements = [{
             'ActivityType': 'Ankomst',
@@ -161,11 +139,6 @@ describe('current', function () {
             'AdvertisedTimeAtLocation': '2017-03-29T07:21:00',
             'AdvertisedTrainIdent': '2212',
             'LocationSignature': 'Hu',
-        }, {
-            'ActivityType': 'Avgang',
-            'AdvertisedTimeAtLocation': '2017-03-29T07:24:00',
-            'AdvertisedTrainIdent': '2212',
-            'LocationSignature': 'Sta',
         }, {
             'ActivityType': 'Ankomst',
             'AdvertisedTimeAtLocation': '2017-03-29T07:24:00',
@@ -184,13 +157,6 @@ describe('current', function () {
             'AdvertisedTrainIdent': '2211',
             'LocationSignature': 'Åbe',
             'EstimatedTimeAtLocation': '2017-03-30T07:31:00',
-            'TimeAtLocation': '2017-03-30T07:30:00'
-        }, {
-            'ActivityType': 'Ankomst',
-            'AdvertisedTimeAtLocation': '2017-03-30T07:29:00',
-            'AdvertisedTrainIdent': '2211',
-            'LocationSignature': 'Åbe',
-            'EstimatedTimeAtLocation': '2017-03-30T07:30:00',
             'TimeAtLocation': '2017-03-30T07:30:00'
         }, {
             'ActivityType': 'Avgang',
