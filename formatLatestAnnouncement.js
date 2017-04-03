@@ -1,3 +1,6 @@
+/* eslint better/no-new: 0 */
+
+import difference_in_seconds from 'date-fns/difference_in_seconds'
 import map from 'lodash.map'
 
 import * as delay from './delay'
@@ -16,14 +19,14 @@ export default function formatLatestAnnouncement(train) {
         return stations.get(locationSignature, 'AdvertisedShortLocationName') || locationSignature
     }
 
-    function estimatedTime() {
+    function relativeTime() {
         const t = train.next.EstimatedTimeAtLocation ? train.next.EstimatedTimeAtLocation : train.next.AdvertisedTimeAtLocation
 
-        return t.substring(11, 16)
+        return difference_in_seconds(t, new Date())
     }
 
     function next() {
-        return train.next ? `<span class="wide"> och</span> ank<span class="wide">ommer till</span> ${location(train.next)} <span class="wide">kl</span> ${estimatedTime()}` : ''
+        return train.next ? `<span class="wide"> och</span> ank<span class="wide">ommer till</span> ${location(train.next)} <span class="wide">om</span> ${relativeTime()} s<span class="wide">ekunder</span>` : ''
     }
 
     const a = train.actual
