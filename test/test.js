@@ -147,7 +147,8 @@ describe('current', function () {
         }]
 
         expect(current(announcements)[0].actual.TimeAtLocation).to.match(/7:21/)
-        expect(current(announcements)[0].next).not.to.be.ok
+        expect(current(announcements)[0].next.AdvertisedTimeAtLocation).to.match(/7:21/)
+        expect(current(announcements)[0].next.ActivityType).to.equal('Avgang')
     })
 
     it('next returns arrival, not departure', function () {

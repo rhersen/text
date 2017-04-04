@@ -17,8 +17,7 @@ export default function current(announcements) {
 
 function announcementsToObject(v) {
     const actual = maxby(filter(v, 'TimeAtLocation'), a => a.TimeAtLocation + a.ActivityType)
-    const isDeparture = actual && actual.ActivityType === 'Avgang'
-    const next = isDeparture && minby(filter(reject(v, 'TimeAtLocation'), {ActivityType: 'Ankomst'}), 'AdvertisedTimeAtLocation')
+    const next = minby(reject(v, 'TimeAtLocation'), a => a.AdvertisedTimeAtLocation + a.ActivityType)
 
     return {actual, next}
 }

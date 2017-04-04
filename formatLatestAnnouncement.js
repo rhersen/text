@@ -26,7 +26,11 @@ export default function formatLatestAnnouncement(train) {
     }
 
     function next() {
-        return train.next ? `<span class="wide"> och</span> ank<span class="wide">ommer till</span> ${location(train.next)} <span class="wide">om</span> ${relativeTime()} s<span class="wide">ekunder</span>` : ''
+        return !train.next ?
+            '' :
+            train.next.ActivityType === 'Ankomst' ?
+                `<span class="wide"> och</span> ank<span class="wide">ommer till</span> ${location(train.next)} <span class="wide">om</span> ${relativeTime()} s<span class="wide">ekunder</span>`:
+                `<span class="wide"> och</span> avg<span class="wide">år om</span> ${relativeTime()} s<span class="wide">ekunder</span>`
     }
 
     const a = train.actual
